@@ -1,0 +1,32 @@
+#define DELAYTIME 2000
+bool ledArray[2][5]       = {
+  {0, 1, 1, 1, 0},
+  {1, 1, 1, 1, 1},
+};
+int ledPins[5]            = {13, 12, 11, 10, 9};
+long setTime              = 0;
+void setup() {
+  for (int count = 9; count < 14; count++) {
+    pinMode(count, OUTPUT);
+    digitalWrite(count, HIGH);
+
+  }
+  pinMode(2, INPUT_PULLUP);
+}
+
+void loop() {
+  if (digitalRead(2) == LOW) {
+    setTime = millis();
+  }
+  if (millis() < (setTime + DELAYTIME)) {
+    ledDriver(0);
+  } else {
+    ledDriver(1);
+  }
+}
+
+void ledDriver(int output) {
+  for (int count = 0; count < 5; count++) {
+    digitalWrite(ledPins[count], ledArray[output][count]);
+  }
+}
